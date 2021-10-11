@@ -1,0 +1,7 @@
+A001, Sửa tắm XMen, Chai 50ml, 50
+A002, Dầu gội đầu Lifeboy, Chai 50ml, 20
+B001, Dầu ăn Cái lân, Chai 1 lít, 10
+B002, Đường cát, Kg, 15
+C001, Chén sứ Minh Long, Bộ 10 cái, 2
+C0023, Mi Goi, Goi, 100
+C004, Mi Goi, Goi, 100

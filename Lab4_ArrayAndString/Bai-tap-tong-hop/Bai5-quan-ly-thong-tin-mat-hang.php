@@ -17,18 +17,35 @@
 </head>
 <body>
     <?php
-        $dsMatHang = array(
-            'A001' => array("Sữa tắm XMen", "Chai 50ml", 50),
-            'A002' => array("Dầu gội đầu Lifeboy", "Chai 50ml", 20),
-            'B001' => array("Dầu ăn Cái lân", "Chai 1 lít", 10),
-            'B002' => array("Đường cát", "Kg", 15),
-            'C001' => array("Chén sứ Minh Long", "Bộ 10 cái", 2)
-        );
+        $dsMatHang = array();
 
+        // Lấy danh sách từ file đưa vào mảng
+        $path = 'dsMatHang.txt';
+
+        $fp = @fopen($path, "r");
+        
+        if (!$fp) {
+            echo "Mở file không thành công!";
+        } else {
+            // lập qua từng dòng để đọc
+            while (!feof($fp)) {
+                $thongTinSanPham = fgets($fp);
+                $temp = explode(", ", $thongTinSanPham);
+
+                $dsMatHang[$temp[0]] = array($temp[1], $temp[2], $temp[3]);
+            }
+
+            fclose($fp);
+        }
+
+
+        //-----
         $maMatHangMoi = $tenMatHang = $donViTinh = $soLuong = "";
 
-        $err = "";
-        
+        $thongTinErr = "";
+        $maSanPhamErr = "";
+        $err = array();
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $maMatHangMoi = $_POST['maMatHang'];
             $tenMatHang = $_POST['tenMatHang'];
@@ -36,12 +53,35 @@
             $soLuong = $_POST['soLuong'];
 
             if (empty($_POST['maMatHang']) || empty($_POST['tenMatHang']) || empty($_POST['donViTinh']) || empty($_POST['soLuong'])) {
-                $err = "Bạn hãy nhập đầy đủ thông tin!";
+                $thongTinErr = "Bạn hãy nhập đầy đủ thông tin!";
+                $err[] = $thongTinErr;
+            }
+            
+            foreach ($dsMatHang as $key => $value) {
+                if ($maMatHangMoi == $key) {
+                    $maSanPhamErr = "Mã sản phẩm này đã tồn tại!";
+                    $err[] = $maSanPhamErr;
+                }
+            }
 
-            } else {
-
-
+            // Thêm sản phẩm vào danh sách
+            if (empty($err)) {
                 $dsMatHang[$maMatHangMoi] = array($tenMatHang, $donViTinh, $soLuong);
+
+                // Ghi vào file
+                $fp = @fopen($path, 'a+');
+
+                // Kiểm tra mở file
+                if (!$fp) {
+                    echo "Mở file không thành công!";
+                } else {
+                    $matHangMoi = "\n". $maMatHangMoi . ", " . $tenMatHang . ", " . $donViTinh . ", " . $soLuong;
+
+                    // Ghi file
+                    fwrite($fp, $matHangMoi);
+                    // Đóng file
+                    fclose($fp);
+                }
             }
         }
     ?>
@@ -88,7 +128,12 @@
         </table>
 
         <input type="submit" value="Thêm">
-        <p><?php echo $err; ?></p>
+        <p>
+            <?php
+                echo $thongTinErr;
+                echo $maSanPhamErr;
+            ?>
+        </p>
     </form>
 
 </body>

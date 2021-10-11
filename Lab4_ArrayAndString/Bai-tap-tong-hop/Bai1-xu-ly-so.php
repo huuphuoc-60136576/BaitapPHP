@@ -28,17 +28,19 @@
                     
                     // a- Hiển thị mảng phát sinh ngẫu nhiên có độ dài n.
                     taoMang($n, $arr);
-                    $hienThiCaua = hienThiMang($arr); 
+                    $hienThiCaua = "- Mảng được khởi tạo: &#13;&#10;";
+                    $hienThiCaua .= hienThiMang($arr) . "&#13;&#10;"; 
                     
                     // b- Sắp xếp mảng tăng dần theo giá trị.
                     asort($arr);
-                    $hienThiCaub = hienThiMang($arr);
+                    $hienThiCaub = "- Sắp xếp mảng tăng dần theo giá trị: &#13;&#10;";
+                    $hienThiCaub .= hienThiMang($arr) . "&#13;&#10;";
 
                     // c- Chèn một số vào vị trí bất kỳ trong mảng. In ra mảng sau khi chèn số.
                     chenVaoMang($so, $viTri, $arr);
                     $hienThiCauc = "Số $so được chèn vào vị trí $viTri &#13;&#10;";
                     $hienThiCauc .= "Mảng sau khi chèn $so: &#13;&#10;";
-                    $hienThiCauc .= hienThiMang($arr);
+                    $hienThiCauc .= hienThiMang($arr) . "&#13;&#10;";
 
                     // d- Sắp xếp mảng theo dạng sau: Từ phần tử đầu tiên đến phần tử được 
                     // chèn vào là tăng dần; từ phần tử được chèn vào đến phần tử cuối là 
@@ -133,20 +135,12 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <textarea cols="60" rows="10">
-                        <?php
-                            echo "- Mảng được khởi tạo: &#13;&#10;";
+                    <textarea cols="60" rows="10"><?php                            
                             echo $hienThiCaua;
-                            echo "&#13;&#10;";
-
-                            echo "- Sắp xếp mảng tăng dần theo giá trị: &#13;&#10;";
                             echo $hienThiCaub;
-                            
                             echo $hienThiCauc;
-                            echo "&#13;&#10;";
                             echo $hienThiCaud;
-                        ?>
-                    </textarea>
+                    ?></textarea>
                 </td>
             </tr>
         </table>
